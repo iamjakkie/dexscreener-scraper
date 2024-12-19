@@ -54,11 +54,11 @@ def fetch_data():
     tokens = []
 
     try:
-        # Refresh the page
+        print("Refreshing page...")
         driver.refresh()
-        
-        # Fetch elements
+        print("Page refreshed. Fetching elements...")
         elements = driver.find_elements(By.CSS_SELECTOR, "a.ds-dex-table-row.ds-dex-table-row-top")
+        print(f"Found {len(elements)} elements.")
         for element in elements:
             data = element.text.split("\n")
             data_len = len(data)
