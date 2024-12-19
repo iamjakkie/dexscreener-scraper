@@ -59,9 +59,13 @@ def fetch_data():
         print("Refreshing page...")
         driver.refresh()
         print("Waiting for elements to load...")
-        WebDriverWait(driver, 20).until(
-            EC.presence_of_element_located((By.CSS_SELECTOR, "a.ds-dex-table-row.ds-dex-table-row-top"))
-        )
+        try:
+            WebDriverWait(driver, 40).until(
+                EC.presence_of_element_located((By.CSS_SELECTOR, "a.ds-dex-table-row.ds-dex-table-row-top"))
+            )
+        except Exception as wait_error:
+            print(f"Wait error: {wait_error}")
+            raise
         print("Elements loaded.")
         print("Page refreshed. Fetching elements...")
         elements = driver.find_elements(By.CSS_SELECTOR, "a.ds-dex-table-row.ds-dex-table-row-top")
