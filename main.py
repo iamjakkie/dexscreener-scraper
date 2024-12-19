@@ -30,13 +30,13 @@ s3_client = session.client("s3")
 thread_local = local()
 
 def get_driver():
-    options = Options()
-    options.add_argument("--headless")  # Run in headless mode
-    options.add_argument("--no-sandbox")  # Required for Docker or restricted environments
-    options.add_argument("--disable-dev-shm-usage")  # Prevent resource exhaustion
-    options.add_argument("--disable-gpu")  # Disable GPU acceleration (not needed in headless)
-    options.add_argument("--window-size=1920,1080")  # Set default window size
-    return Driver(uc=True, headless=True, options=options)
+    # options = Options()
+    # options.add_argument("--headless")  # Run in headless mode
+    # options.add_argument("--no-sandbox")  # Required for Docker or restricted environments
+    # options.add_argument("--disable-dev-shm-usage")  # Prevent resource exhaustion
+    # options.add_argument("--disable-gpu")  # Disable GPU acceleration (not needed in headless)
+    # options.add_argument("--window-size=1920,1080")  # Set default window size
+    return Driver(uc=True, headless=True)
 
 def fetch_data():
     """
