@@ -3,6 +3,8 @@ from telebot.async_telebot import AsyncTeleBot
 import os
 from seleniumbase import Driver
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 import time
 from dotenv import load_dotenv
 import boto3
@@ -56,9 +58,16 @@ def fetch_data():
     try:
         print("Refreshing page...")
         driver.refresh()
+        print("Waiting for elements to load...")
+        WebDriverWait(driver, 20).until(
+            EC.presence_of_element_located((By.CSS_SELECTOR, "a.ds-dex-table-row.ds-dex-table-row-top"))
+        )
+        print("Elements loaded.")
         print("Page refreshed. Fetching elements...")
         elements = driver.find_elements(By.CSS_SELECTOR, "a.ds-dex-table-row.ds-dex-table-row-top")
         print(f"Found {len(elements)} elements.")
+
+
         for element in elements:
             data = element.text.split("\n")
             data_len = len(data)
