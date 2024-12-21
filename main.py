@@ -38,7 +38,8 @@ def get_driver():
     # options.add_argument("--disable-dev-shm-usage")  # Prevent resource exhaustion
     # options.add_argument("--disable-gpu")  # Disable GPU acceleration (not needed in headless)
     # options.add_argument("--window-size=1920,1080")  # Set default window size
-    return Driver(uc=True, headless=True)
+    # point driver to 
+    return Driver(servername="http://localhost:4444/wd/hub", uc=True, headless=True)
 
 def fetch_data():
     """
