@@ -4,7 +4,7 @@ FROM selenium/standalone-chrome:latest
 # Set environment variables to avoid prompts during installation
 ENV DEBIAN_FRONTEND=noninteractive
 
-# Install Python, pip, and other dependencies
+# Install Python, pip, and virtual environment dependencies
 USER root
 RUN apt-get update && apt-get install -y \
     python3 \
@@ -17,11 +17,15 @@ RUN apt-get update && apt-get install -y \
 # Set Python alias for convenience
 RUN ln -s /usr/bin/python3 /usr/bin/python
 
+# Create and activate a virtual environment
+RUN python3 -m venv /opt/venv
+ENV PATH="/opt/venv/bin:$PATH"
+
 # Copy application files into the container
 WORKDIR /app
 COPY . .
 
-# Install Python dependencies
+# Install Python dependencies inside the virtual environment
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Expose any necessary ports (optional, based on your app requirements)
