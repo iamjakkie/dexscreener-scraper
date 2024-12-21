@@ -19,7 +19,8 @@ RUN ln -s /usr/bin/python3 /usr/bin/python
 
 # Create and activate a virtual environment
 RUN python3 -m venv /opt/venv
-ENV PATH="/opt/venv/bin:$PATH"
+ENV PATH="/opt/venv/bin:$PATH" \
+    SE_OFFLINE=false
 
 # Copy application files into the container
 WORKDIR /app
