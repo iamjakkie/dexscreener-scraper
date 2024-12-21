@@ -43,10 +43,9 @@ def get_driver():
 
     # return Driver(uc=True, headless=True)
     return Driver(
-        uc=False,  # Undetected Chrome is not used for remote WebDriver
-        server_url="http://localhost:4444/wd/hub",  # Selenium container URL
+        uc=True,  # Undetected Chrome is not used for remote WebDriver
+        servername="http://localhost:4444/wd/hub",  # Selenium container URL
         browser="chrome",  # Use Chrome browser
-        capabilities=capabilities
     )
 
 def fetch_data():
