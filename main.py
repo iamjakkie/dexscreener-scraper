@@ -5,6 +5,7 @@ from seleniumbase import Driver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 import time
 from dotenv import load_dotenv
 import boto3
@@ -38,8 +39,15 @@ def get_driver():
     # options.add_argument("--disable-dev-shm-usage")  # Prevent resource exhaustion
     # options.add_argument("--disable-gpu")  # Disable GPU acceleration (not needed in headless)
     # options.add_argument("--window-size=1920,1080")  # Set default window size
-    # point driver to 
-    return Driver(servername="http://localhost:4444/wd/hub", uc=True, headless=True)
+    capabilities = DesiredCapabilities.CHROME
+
+    # return Driver(uc=True, headless=True)
+    return Driver(
+        uc=False,  # Undetected Chrome is not used for remote WebDriver
+        server_url="http://localhost:4444/wd/hub",  # Selenium container URL
+        browser="chrome",  # Use Chrome browser
+        capabilities=capabilities
+    )
 
 def fetch_data():
     """
