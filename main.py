@@ -12,6 +12,7 @@ import boto3
 import json
 from threading import local
 from selenium.webdriver.chrome.options import Options
+import threading
 
 
 load_dotenv()
@@ -33,18 +34,9 @@ s3_client = session.client("s3")
 thread_local = local()
 
 def get_driver():
-    # options = Options()
-    # options.add_argument("--headless")  # Run in headless mode
-    # options.add_argument("--no-sandbox")  # Required for Docker or restricted environments
-    # options.add_argument("--disable-dev-shm-usage")  # Prevent resource exhaustion
-    # options.add_argument("--disable-gpu")  # Disable GPU acceleration (not needed in headless)
-    # options.add_argument("--window-size=1920,1080")  # Set default window size
-    capabilities = DesiredCapabilities.CHROME
-
     # return Driver(uc=True, headless=True)
     return Driver(
         uc=True,  # Undetected Chrome is not used for remote WebDriver
-        # servername="http://localhost:4444/wd/hub",  # Selenium container URL
         browser="chrome",  # Use Chrome browser
     )
 
@@ -53,14 +45,15 @@ def fetch_data():
     Fetch data from Dexscreener using a persistent ChromeDriver instance.
     """
     # Check if the driver is already initialized in the current thread
+    print(f"Thread: {threading.current_thread().name}")
     if not hasattr(thread_local, "driver"):
         print("Initializing ChromeDriver...")
         thread_local.driver = get_driver()
-        # Open the target URL
-        url = "https://dexscreener.com/?rankBy=trendingScoreH6&order=desc&chainIds=solana&dexIds=raydium&minLiq=45000&minMarketCap=500000&maxMarketCap=10000000&maxAge=168&min24HTxns=500"
-        thread_local.driver.uc_open_with_reconnect(url, reconnect_time=6)
-
     driver = thread_local.driver
+    # Open the target URL
+    url = "https://dexscreener.com/?rankBy=trendingScoreH6&order=desc&chainIds=solana&dexIds=raydium&minLiq=45000&minMarketCap=500000&maxMarketCap=10000000&maxAge=168&min24HTxns=500"
+    thread_local.driver.uc_open_with_reconnect(url, reconnect_time=6)
+
     tokens = []
 
     try:
